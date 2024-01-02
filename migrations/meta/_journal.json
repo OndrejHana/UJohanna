@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1704233452072,
+      "tag": "0000_great_quasimodo",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1704233674408,
+      "tag": "0001_gorgeous_lady_bullseye",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1704234120883,
+      "tag": "0002_puzzling_prowler",
+      "breakpoints": true
+    }
+  ]
+}

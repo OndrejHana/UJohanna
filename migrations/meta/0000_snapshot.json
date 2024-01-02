@@ -1,0 +1,60 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "id": "8ed37784-0e24-419b-9d8f-d5f29ac547ed",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "objednavky": {
+      "name": "objednavky",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "objednavky_id": {
+          "name": "objednavky_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "produkty": {
+      "name": "produkty",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "produkty_id": {
+          "name": "produkty_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}
