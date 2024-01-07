@@ -26,6 +26,7 @@ export default function Page() {
 	});
 
 	async function formValidation(formData: z.infer<typeof produkt>) {
+		console.log(formData);
 		try {
 			await pridejProdukt(formData);
 		} catch (error) {
@@ -50,7 +51,7 @@ export default function Page() {
 								<FormItem>
 									<FormLabel>Název produktu</FormLabel>
 									<FormControl>
-										<Input placeholder="Kord kytička" {...field} />
+										<Input type="text" placeholder="Kord kytička" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -63,7 +64,13 @@ export default function Page() {
 								<FormItem>
 									<FormLabel>Cena</FormLabel>
 									<FormControl>
-										<Input placeholder="100" {...field} />
+										<Input
+											type="number"
+											placeholder="100"
+											{...form.register('cena', {
+												valueAsNumber: true
+											})}
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -76,7 +83,13 @@ export default function Page() {
 								<FormItem>
 									<FormLabel>Dostupnost</FormLabel>
 									<FormControl>
-										<Input placeholder="10" {...field} />
+										<Input
+											type="number"
+											placeholder="10"
+											{...form.register('dostupnost', {
+												valueAsNumber: true
+											})}
+										/>
 									</FormControl>
 									<FormDescription>
 										Do kolika dnů bude produkt připraven k odeslání
@@ -92,7 +105,13 @@ export default function Page() {
 								<FormItem>
 									<FormLabel>Záruka</FormLabel>
 									<FormControl>
-										<Input placeholder="24" {...field} />
+										<Input
+											type="number"
+											placeholder="24"
+											{...form.register('zaruka', {
+												valueAsNumber: true
+											})}
+										/>
 									</FormControl>
 									<FormDescription>
 										Počet měsíců záruky na produkt, pokud produkt nemá záruku,
@@ -109,7 +128,7 @@ export default function Page() {
 								<FormItem>
 									<FormLabel>Výrobce</FormLabel>
 									<FormControl>
-										<Input placeholder="Mikov s.r.o." {...field} />
+										<Input type="text" placeholder="Mikov s.r.o." {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -122,7 +141,13 @@ export default function Page() {
 								<FormItem>
 									<FormLabel>Váha</FormLabel>
 									<FormControl>
-										<Input placeholder="100" {...field} />
+										<Input
+											type="number"
+											placeholder="100"
+											{...form.register('vaha', {
+												valueAsNumber: true
+											})}
+										/>
 									</FormControl>
 									<FormDescription>
 										Váha produktu v grammech, pokud nevíte, zadejte 0
@@ -154,7 +179,6 @@ export default function Page() {
 							render={({ field }) => (
 								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormLabel>Je na skladě</FormLabel>
-
 									<FormControl>
 										<Checkbox
 											checked={field.value}
