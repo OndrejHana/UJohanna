@@ -1,9 +1,9 @@
-import ProductList from "@/components/admin/ProductList";
+import ProductList from '@/components/admin/ProductList';
+import { Card } from '@/components/ui/card';
 
 export default async function Page() {
-
 	return (
-		<div>
+		<div className="h-full w-full ">
 			<ProductList />
 		</div>
 	);
