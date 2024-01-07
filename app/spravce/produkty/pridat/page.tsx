@@ -26,11 +26,10 @@ export default function Page() {
 	});
 
 	async function formValidation(formData: z.infer<typeof produkt>) {
-		console.log(formData);
 		try {
 			await pridejProdukt(formData);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			return;
 		}
 	}

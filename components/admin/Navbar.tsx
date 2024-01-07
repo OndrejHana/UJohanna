@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ThemeToggle } from '../ThemeToggle';
+import { UserButton } from '@clerk/nextjs';
 
 export default function Navbar() {
 	return (
@@ -10,6 +11,10 @@ export default function Navbar() {
 			>
 				<h1>Správce</h1>
 			</Link>
+			<div className='flex'>
+				<UserButton afterSignOutUrl="/" />
+				<ThemeToggle />
+			</div>
 		</nav>
 	);
 }
