@@ -2,7 +2,7 @@ import Navbar from '@/components/admin/Navbar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
-		<div className="flex h-full w-full">
+		<div className="flex h-screen w-full">
 			<div>
 				<Navbar />
 			</div>
