@@ -44,9 +44,5 @@ export const produkt = z.object({
 			invalid_type_error: 'Popis musí být text',
 			required_error: 'Popis je povinný'
 		})
-		.max(1024, 'Popis může mít maximálně 1024 znaků'),
-	naSklade: z.boolean({
-		invalid_type_error: 'Na skladě musí být pravda/nepravda',
-		required_error: 'Na skladě je povinné'
-	})
+		.max(1024, 'Popis může mít maximálně 1024 znaků')
 });
