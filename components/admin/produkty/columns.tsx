@@ -13,7 +13,6 @@ export type Produkt = {
 	vyrobce: string | null;
 	vaha: number | null;
 	popis: string | null;
-	naSklade: boolean;
 };
 
 export const columns: ColumnDef<Produkt>[] = [
