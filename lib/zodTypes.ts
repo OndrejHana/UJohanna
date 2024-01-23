@@ -44,5 +44,8 @@ export const produkt = z.object({
 			invalid_type_error: 'Popis musí být text',
 			required_error: 'Popis je povinný'
 		})
-		.max(1024, 'Popis může mít maximálně 1024 znaků')
+		.max(1024, 'Popis může mít maximálně 1024 znaků'),
+	obrazky: z
+		.custom<FileList>(value => value instanceof FileList, "Required")
+		.refine(value => value.length < 5, "Maximálně 4 obrázky")
 });

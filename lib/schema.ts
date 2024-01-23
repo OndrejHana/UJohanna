@@ -1,7 +1,6 @@
 import {
 	mysqlTable,
 	int,
-	index,
 	timestamp,
 	varchar,
 	mysqlEnum
@@ -16,6 +15,12 @@ export const produkty = mysqlTable('produkty', {
 	vyrobce: varchar('vyrobce', { length: 255 }),
 	vaha: int('vaha'),
 	popis: varchar('popis', { length: 1024 })
+});
+
+export const obrazky = mysqlTable('obrazky', {
+	id: int('id').primaryKey().autoincrement(),
+	produktId: int('produktId').notNull(),
+	cesta: varchar('cesta', { length: 255 }).notNull()
 });
 
 export const navstevnost = mysqlTable('navstevnost', {

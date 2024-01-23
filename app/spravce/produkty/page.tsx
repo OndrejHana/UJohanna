@@ -8,7 +8,7 @@ export default async function Page() {
 
 	return (
 		<div className="flex h-full flex-col">
-			<h1 className="w-full border-b border-b-stone-300 py-2 text-center text-2xl font-bold dark:border-b-stone-700">
+			<h1 className="back w-full border-b border-b-stone-300 py-2 text-center text-2xl font-bold dark:border-b-stone-700">
 				Produkty
 			</h1>
 			<Card className="m-2 p-2">

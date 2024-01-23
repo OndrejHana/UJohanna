@@ -1,4 +1,25 @@
 'use client';
+
+import { useForm } from 'react-hook-form';
+import {
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage
+} from '../ui/form';
+import { z } from 'zod';
+import { produkt } from '@/lib/zodTypes';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
+import { Card } from '../ui/card';
+import Image from 'next/image';
+import FileSize from '../FileSize';
+import { Button } from '../ui/button';
+import { X } from 'lucide-react';
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -8,64 +29,46 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	AlertDialogTrigger
-} from '@/components/ui/alert-dialog';
-import { Card } from '@/components/ui/card';
-import {
-	Form,
-	FormControl,
-	FormDescription,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { produkt } from '@/lib/zodTypes';
-import { pridejProdukt } from '@/server/pridejProdukt';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+} from '../ui/alert-dialog';
+
+const ALLOWED_IMAGE_TYPES = [
+	'image/png',
+	'image/jpeg',
+	'image/jpg',
+	'image/webp'
+];
 
 export default function PridejProduktForm() {
 	const form = useForm<z.infer<typeof produkt>>({
+		mode: 'onSubmit',
 		resolver: zodResolver(produkt),
 		defaultValues: {
 			nazev: '',
 			cena: 0,
-			vaha: 0,
-			popis: '',
+			dostupnost: 0,
 			zaruka: 0,
 			vyrobce: '',
-			dostupnost: 0
+			vaha: 0,
+			popis: ''
 		}
 	});
 
-	async function formValidation(formData: z.infer<typeof produkt>) {
-		try {
-			await pridejProdukt(formData);
-		} catch (error) {
-			const err = error as string;
-			console.log(err);
-
-			form.setError('root', {
-				message: err
-			});
-
-		}
+	function formAction(formData: z.infer<typeof produkt>) {
+		console.log('formAction');
+		console.log(formData);
 	}
+
+	const fileList = form.watch('obrazky');
 
 	return (
 		<AlertDialog>
-			<Card className="mx-auto my-8 w-full max-w-2xl p-2">
+			<Card className="w-full max-w-3xl p-2">
 				<Form {...form}>
 					<form
-						onSubmit={form.handleSubmit(formValidation)}
+						onSubmit={form.handleSubmit(formAction)}
+						className="space-y-4"
 						id="pridejProduktForm"
-						className="space-y-4 p-2"
 					>
-						{form.formState.errors.root && <FormMessage>{`${form.formState.errors.root?.message}`}</FormMessage>}
 						<FormField
 							control={form.control}
 							name="nazev"
@@ -79,10 +82,11 @@ export default function PridejProduktForm() {
 								</FormItem>
 							)}
 						/>
+
 						<FormField
 							control={form.control}
 							name="cena"
-							render={({ field }) => (
+							render={() => (
 								<FormItem>
 									<FormLabel>Cena</FormLabel>
 									<FormControl>
@@ -98,10 +102,11 @@ export default function PridejProduktForm() {
 								</FormItem>
 							)}
 						/>
+
 						<FormField
 							control={form.control}
 							name="dostupnost"
-							render={({ field }) => (
+							render={() => (
 								<FormItem>
 									<FormLabel>Dostupnost</FormLabel>
 									<FormControl>
@@ -123,7 +128,7 @@ export default function PridejProduktForm() {
 						<FormField
 							control={form.control}
 							name="zaruka"
-							render={({ field }) => (
+							render={() => (
 								<FormItem>
 									<FormLabel>Záruka</FormLabel>
 									<FormControl>
@@ -159,7 +164,7 @@ export default function PridejProduktForm() {
 						<FormField
 							control={form.control}
 							name="vaha"
-							render={({ field }) => (
+							render={() => (
 								<FormItem>
 									<FormLabel>Váha</FormLabel>
 									<FormControl>
@@ -195,12 +200,79 @@ export default function PridejProduktForm() {
 								</FormItem>
 							)}
 						/>
+						<div>
+							<FormField
+								control={form.control}
+								name="obrazky"
+								render={({ field: { onChange }, ...field }) => {
+									return (
+										<FormItem>
+											<FormLabel>Obrázky</FormLabel>
+											<FormControl>
+												<Input
+													type="file"
+													accept={ALLOWED_IMAGE_TYPES.join(',')}
+													multiple
+													{...form.register('obrazky', {
+														value: form.getValues('obrazky')
+													})}
+													onChange={(e) => {
+														onChange(e.target.files!);
+													}}
+												/>
+											</FormControl>
+											<FormDescription></FormDescription>
+											<FormMessage />
+										</FormItem>
+									);
+								}}
+							/>
+							{!!fileList && (
+								<div className="flex flex-col gap-1">
+									{[...fileList].map((image) => (
+										<Card className="flex gap-1 p-1" key={image.name}>
+											<Image
+												className="h-16 w-16 rounded bg-stone-200 object-contain dark:bg-stone-900"
+												width={64}
+												height={64}
+												src={URL.createObjectURL(image)}
+												alt={image.name}
+											/>
+											<div className="grow">
+												<p>{image.name}</p>
+												<FileSize size={image.size} />
+											</div>
+											<div className="flex items-center justify-center">
+												<div
+													className="flex cursor-pointer items-center justify-center rounded p-2 hover:bg-red-300 dark:hover:bg-red-700"
+													onClick={() => {
+														const newImages = new DataTransfer();
+
+														for (const file of fileList) {
+															if (file.name !== image.name) {
+																newImages.items.add(file);
+															}
+														}
+
+														form.setValue('obrazky', newImages.files);
+													}}
+												>
+													<X className="h-4 w-4" />
+												</div>
+											</div>
+										</Card>
+									))}
+								</div>
+							)}
+						</div>
+
 						<AlertDialogTrigger asChild>
 							<Button>Odeslat</Button>
 						</AlertDialogTrigger>
 					</form>
 				</Form>
 			</Card>
+
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>Vytvořit nový produkt?</AlertDialogTitle>
